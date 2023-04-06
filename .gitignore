@@ -1,0 +1,23 @@
+# Dependency directories
+node_modules/
+dist/
+ 
+# IDE and editor files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+ 
+# Compiled output
+*.log
+*.bak
+*.cache
+*.zip
+*.tgz
+*.tar.gz
+ 
+# OS generated files
+.DS_Store
+Thumbs.db
