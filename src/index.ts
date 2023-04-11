@@ -1,6 +1,6 @@
 import "dotenv/config"
 import { Client, GatewayIntentBits } from "discord.js"
-import { gameCommand } from "./commands/game/gameCommand"
+import { GameCommand } from "./commands/GameCommand"
 import { parseArgs } from "./helpers/parseArgs"
 
 const client = new Client({
@@ -18,28 +18,16 @@ client.once("ready", () => {
 })
 
 client.on("messageCreate", async (message) => {
-  const { command, args } = parseArgs(message)
-  if (command === "game") {
-    gameCommand(message, args)
+  try {
+    const { command, args } = parseArgs(message)
+    if (command === "game") {
+    new GameCommand(message,args).handleCommand()
   }
-})
-
-client.on("interactionCreate", async (interaction) => {
-  if (!interaction.isButton()) return
-
-  switch (interaction.customId) {
-    case "accept":
-      await interaction.reply("You accepted the invitation.")
-      break
-    case "decline":
-      await interaction.reply("You declined the invitation.")
-      break
-    case "few_minutes":
-      await interaction.reply('You chose "Not Now".')
-      break
-    default:
-      await interaction.reply("Unknown button.")
+  } catch (error: any) {
+    await message.reply(error.message)
   }
 })
 
 client.login(process.env.BOT_TOKEN)
+
+export {client}
